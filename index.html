@@ -1,68 +1,808 @@
----
-layout: home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ekaksh Kataria</title>
+<meta name="description" content="Ekaksh "EK" Kataria: data scientist with a physics brain. Bayesian inference, machine learning, LLM systems.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --panel:#0b0c0f; --panel2:#121419; --line:#1f2228; --ink:#EEEAE2; --muted:#8C9099; --dim:#5b5f67;
+  --acc:#4FD1FF; --acc2:#FFB45C; --accRGB:79,209,255;
+  --serif:"Instrument Serif", Georgia, serif; --sans:"Manrope", system-ui, sans-serif;
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:#000}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
+::selection{background:var(--acc);color:#000}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--panel);font-size:13px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;text-decoration:none;font-weight:600;font-size:14px;transition:border-color .2s,background .2s}
+.btn:hover{border-color:var(--acc)}
+.btn.solid{background:var(--acc);color:#000;border-color:var(--acc)}
+.btn.solid:hover{filter:brightness(1.08)}
+.chip{padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .2s}
+.chip:hover{color:var(--ink);border-color:var(--dim)}
+.chip[aria-pressed="true"]{color:#000;background:var(--acc);border-color:var(--acc)}
+h2.sec{font:400 clamp(40px,6vw,72px)/1 var(--serif);margin:0 0 10px;letter-spacing:-.01em}
+h2.sec em{color:var(--acc)}
+p.secsub{color:var(--muted);margin:0 0 34px;max-width:560px}
+section{padding:120px 0 0}
 
-<div class="about">
-  <p>
-    I am a Physics graduate with a minor in Data Science from Michigan State University, with a strong foundation in scientific computing, machine learning, and mathematical modeling.
-    My work combines domain knowledge from physics with technical expertise in Python, PyTorch, and data analysis to explore complex systems through emulator-based modeling and uncertainty quantification. I’m particularly interested in the intersection of machine learning and the physical sciences, and have applied neural networks to study moment closures in kinetic theory. My approach blends analytical rigor with practical implementation, aiming to develop robust and interpretable models for real-world scientific problems.
-  </p>
+/* ---------- intro ---------- */
+#intro{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;transition:opacity .9s ease, visibility .9s}
+#intro.gone{opacity:0;visibility:hidden}
+#introCv{position:absolute;inset:0;width:100%;height:100%}
+.intro-top{position:absolute;top:20px;left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.intro-top button{background:none;border:1px solid var(--line);border-radius:99px;padding:6px 14px;color:var(--muted);cursor:pointer;font-size:13px}
+.intro-top button:hover{color:var(--ink)}
+.intro-card{position:relative;z-index:2;width:min(460px,calc(100vw - 32px));margin-top:38vh;background:rgba(11,12,15,.82);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:22px;padding:22px}
+.intro-card h1{font:italic 400 44px/1 var(--serif);margin:0 0 4px}
+.intro-card p{margin:0 0 18px;color:var(--muted);font-size:14px}
+.intro-card .lbl{font-size:13px;color:var(--muted);margin:0 0 10px}
+.sources{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.src{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px 4px;cursor:pointer;text-align:center;font-size:12px;color:var(--muted);transition:all .2s}
+.src i{display:block;width:14px;height:14px;border-radius:50%;margin:0 auto 6px}
+.src[aria-checked="true"]{border-color:var(--acc);color:var(--ink);background:rgba(var(--accRGB),.08)}
+.toggle{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px 12px;width:100%;cursor:pointer;margin-bottom:12px;font-size:14px;text-align:left}
+.toggle .sw{width:34px;height:20px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .2s}
+.toggle .sw::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--ink);transition:transform .2s}
+.toggle[aria-checked="true"] .sw{background:var(--acc)}
+.toggle[aria-checked="true"] .sw::after{transform:translateX(14px);background:#000}
+.intro-card .btn.solid{width:100%;justify-content:space-between;padding:14px 18px;font-size:15px}
 
-  <hr />
+/* ---------- nav ---------- */
+nav.top{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:4px;align-items:center;padding:6px;border:1px solid var(--line);background:rgba(11,12,15,.78);backdrop-filter:blur(12px);border-radius:99px;max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}
+nav.top a{text-decoration:none;font-size:13px;color:var(--muted);padding:7px 12px;border-radius:99px;white-space:nowrap}
+nav.top a:hover{color:var(--ink);background:var(--panel2)}
+nav.top a.me{font:italic 400 19px/1 var(--serif);color:var(--ink);padding:6px 12px 6px 10px}
+@media(max-width:560px){nav.top a.hide-m{display:none}.hint{display:none}}
+nav.top .sw-acc{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--acc);cursor:pointer;flex:none;margin-left:2px}
 
-  <h2>Experience</h2>
-  <div class="timeline">
-    {% for job in site.data.experience %}
-      <div class="company">
-        <div class="company-header">
-          {% if job.logo %}
-            <img src="{{ job.logo }}" alt="{{ job.company }} logo" class="company-logo" />
-          {% endif %}
-          <h3 class="company-name">{{ job.company }}</h3>
-        </div>
+/* ---------- hero ---------- */
+#hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 0 70px;overflow:hidden}
+#field{position:absolute;inset:0;width:100%;height:100%}
+.hero-in{position:relative;z-index:2;pointer-events:none}
+.hero-in .pill, .hero-in a, .hero-in .btn{pointer-events:auto}
+.hero-in .hi{font:400 22px var(--serif);color:var(--muted);margin:18px 0 0}
+.hero-in h1{font:italic 400 clamp(76px,15vw,200px)/.86 var(--serif);margin:0;letter-spacing:-.02em}
+.hero-in .role{font-size:clamp(17px,2vw,21px);margin:18px 0 0;max-width:600px}
+.hero-in .role b{color:var(--acc);font-weight:600}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hint{position:absolute;right:24px;bottom:28px;z-index:2;font-size:12px;color:var(--dim)}
 
-        {% for role in job.roles %}
-          <div class="timeline-entry">
-            <div class="dot"></div>
-            <div class="content">
-              <h4>{{ role.title }}</h4>
-              <p class="location">{{ role.location }}</p>
-              <p class="date">{{ role.date }}</p>
-              <ul>
-                {% for point in role.description %}
-                  <li>{{ point }}</li>
-                {% endfor %}
-              </ul>
-              {% if role.link %}
-                <p><a href="{{ role.link }}" target="_blank">View Project →</a></p>
-              {% endif %}
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% endfor %}
+/* ---------- hello ---------- */
+.hello{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:start}
+.hello .big{font:400 clamp(26px,3vw,36px)/1.25 var(--serif);margin:0 0 18px}
+.hello .big em{color:var(--acc)}
+.hello p{color:#cfccc5;max-width:560px}
+.constants{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.constants .head{display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.constants dl{margin:0}
+.constants .row{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);align-items:baseline}
+.constants .row:last-child{border:0}
+.constants dt{font:italic 400 22px var(--serif);color:var(--acc)}
+.constants dd{margin:0;font-size:14px}
+.constants dd small{display:block;color:var(--muted);font-size:12px}
+@media(max-width:860px){.hello{grid-template-columns:1fr}}
+
+/* ---------- observations carousel ---------- */
+.car-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.car-ctl{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.car-ctl button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:18px}
+.car-ctl button:hover{border-color:var(--acc)}
+.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 24px 26px;margin:0 -24px;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.obs{flex:0 0 min(380px,82vw);scroll-snap-align:start;border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:border-color .25s, transform .25s;text-align:left;padding:0}
+.obs:hover{border-color:rgba(var(--accRGB),.6);transform:translateY(-3px)}
+.obs canvas{width:100%;aspect-ratio:1/0.82;display:block;background:#050608;border-bottom:1px solid var(--line)}
+.obs .meta{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.obs .no{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.obs h3{font:400 28px/1.05 var(--serif);margin:2px 0 4px}
+.obs p{margin:0;color:#c9c6bf;font-size:14px}
+.obs .open{margin-top:auto;padding-top:12px;font-size:13px;color:var(--acc);font-weight:600}
+.swipe{font-size:12px;color:var(--dim);text-align:center}
+
+dialog{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:22px;padding:0;max-width:min(680px,calc(100vw - 24px));width:100%}
+dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
+dialog .dh{position:relative}
+dialog canvas{width:100%;height:220px;display:block;background:#050608}
+dialog .close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.6);cursor:pointer;font-size:18px}
+dialog .db{padding:22px 26px 26px}
+dialog h3{font:400 38px/1.05 var(--serif);margin:0 0 6px}
+dialog .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+dialog ul{padding-left:18px;margin:0 0 16px}
+dialog li{margin:6px 0;color:#d6d3cc}
+dialog li::marker{color:var(--acc)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.tag{font-size:12px;padding:4px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.dl{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- orbits ---------- */
+.orbits{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:stretch}
+.orb-stage{position:relative;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 50% 50%,rgba(var(--accRGB),.07),transparent 60%),#030405;overflow:hidden;min-height:460px}
+#orbCv{position:absolute;inset:0;width:100%;height:100%;cursor:pointer}
+.orb-note{position:absolute;left:16px;bottom:12px;font-size:12px;color:var(--dim)}
+.orb-card{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:22px 24px;display:flex;flex-direction:column}
+.orb-card .now{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.orb-card h3{font:400 36px/1.05 var(--serif);margin:14px 0 4px}
+.orb-card .org{color:var(--acc);font-weight:600;font-size:14px}
+.orb-card .when{color:var(--muted);font-size:13px;margin:2px 0 14px}
+.orb-card ul{margin:0;padding-left:18px;color:#d3d0c9;font-size:15px}
+.orb-card li{margin:7px 0}
+.orb-card li::marker{color:var(--acc2)}
+.orb-ctl{display:flex;gap:8px;margin-top:auto;padding-top:20px;align-items:center}
+.orb-ctl button{height:42px;min-width:42px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:14px}
+.orb-ctl button:hover{border-color:var(--acc)}
+.orb-ctl .count{margin-left:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:900px){.orbits{grid-template-columns:1fr}.orb-stage{min-height:380px}}
+
+/* ---------- collider ---------- */
+.collider{border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}
+.beams{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;padding:20px;align-items:start;border-bottom:1px solid var(--line)}
+.beam h4{margin:0 0 10px;font-size:13px;color:var(--muted);font-weight:500}
+.beam .opts{display:flex;flex-wrap:wrap;gap:6px}
+.beam.b .opts{justify-content:flex-end}.beam.b h4{text-align:right}
+.vs{font:italic 400 34px var(--serif);color:var(--dim);padding-top:22px}
+#colCv{display:block;width:100%;height:240px;background:#030405}
+.energy{display:flex;align-items:center;gap:14px;padding:16px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.energy label{font-size:13px;color:var(--muted)}
+.energy input[type=range]{flex:1;min-width:180px;accent-color:var(--acc)}
+.energy .split{font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink);min-width:86px;text-align:right}
+.presets{display:flex;flex-wrap:wrap;gap:6px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.out{padding:20px}
+.out .read{font:400 26px/1.2 var(--serif);margin:0 0 14px}
+.out .read em{color:var(--acc)}
+.det{display:flex;flex-wrap:wrap;gap:8px}
+.det span{border-radius:99px;padding:6px 12px;border:1px solid var(--line);background:var(--panel2);transition:all .3s}
+.det span.shared{border-color:var(--acc2);color:var(--acc2)}
+.legend{font-size:12px;color:var(--dim);margin-top:14px}
+@media(max-width:760px){.beams{grid-template-columns:1fr}.vs{display:none}.beam.b .opts{justify-content:flex-start}.beam.b h4{text-align:left}}
+
+
+/* ---------- bench ---------- */
+.bench{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.bench-msg{color:var(--muted);margin:0}
+.repo{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:18px 20px;text-decoration:none;transition:border-color .25s}
+.repo:hover{border-color:rgba(var(--accRGB),.6)}
+.repo h3{font:400 24px/1.1 var(--serif);margin:0;word-break:break-word}
+.repo p{margin:0;color:#c9c6bf;font-size:14px;flex:1}
+.repo .rm{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);align-items:center}
+.repo .lang i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:var(--acc2)}
+.repo .pulse{color:var(--acc)}
+
+/* ---------- trails ---------- */
+.profile{border:1px solid var(--line);border-radius:22px;background:#030405;overflow:hidden;margin-bottom:16px}
+#profCv{display:block;width:100%;height:200px;cursor:pointer}
+.hikes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.hike{border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden;cursor:pointer;padding:0;text-align:left;transition:border-color .25s}
+.hike:hover,.hike.on{border-color:rgba(var(--accRGB),.7)}
+.hike .ph{aspect-ratio:4/3;display:block;width:100%;object-fit:cover;background:#050608}
+.hike .hm{padding:12px 16px 14px}
+.hike h3{font:400 22px/1.1 var(--serif);margin:0 0 2px}
+.hike .pl{color:var(--muted);font-size:13px}
+.hike .st{display:flex;gap:12px;font-size:12px;color:var(--acc);margin-top:8px;font-variant-numeric:tabular-nums}
+#hikeDlg{max-width:min(1000px,calc(100vw - 24px));background:#000}
+#hikeDlg .close{position:absolute;top:12px;right:12px;z-index:2}
+.hk-media img,.hk-media canvas{display:block;width:100%;max-height:72vh;object-fit:contain;background:#000}
+.hk-media canvas{height:60vh}
+.hk-bar{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line)}
+.hk-bar button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:18px;flex:none}
+.hk-cap{flex:1}
+.hk-cap b{font:400 24px var(--serif);font-weight:400;display:block}
+.hk-cap span{color:var(--muted);font-size:13px}
+
+/* ---------- lab / terminal ---------- */
+.lab{display:grid;grid-template-columns:1fr 1.2fr;gap:22px}
+.made{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:22px 24px}
+.made h3{font:400 30px var(--serif);margin:0 0 12px}
+.made p{color:#cfccc5;font-size:15px}
+.made .tags{margin-top:14px}
+.term{border:1px solid var(--line);border-radius:22px;background:#050608;overflow:hidden;display:flex;flex-direction:column;min-height:380px;font:400 14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.term .bar{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.term .bar i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.term .bar span{margin-left:auto;font-size:12px;color:var(--dim)}
+#termOut{flex:1;padding:14px 16px 0;overflow-y:auto;max-height:340px;white-space:pre-wrap;word-break:break-word}
+#termOut .p{color:var(--acc)}
+#termOut .m{color:var(--muted)}
+#termOut .h{color:var(--acc2)}
+.term form{display:flex;gap:8px;padding:8px 16px 16px;align-items:center}
+.term form label{color:var(--acc);white-space:nowrap}
+#termIn{flex:1;background:none;border:0;color:var(--ink);font:inherit;outline:none;min-width:0}
+.term form:focus-within{box-shadow:inset 0 -2px 0 var(--acc)}
+@media(max-width:860px){.lab{grid-template-columns:1fr}}
+
+/* ---------- connect ---------- */
+.connect{text-align:center;padding:140px 0 60px}
+.connect h2{font:italic 400 clamp(56px,10vw,130px)/.9 var(--serif);margin:0 0 18px}
+.connect p{color:var(--muted);margin:0 auto 26px;max-width:480px}
+.connect .mail{font:400 clamp(20px,3vw,30px) var(--serif);display:inline-block;margin-bottom:24px}
+.connect .phone{display:block;font:400 clamp(18px,2.4vw,24px) var(--serif);color:var(--muted);margin:-12px 0 26px;text-decoration:none}
+.connect .phone:hover{color:var(--ink)}
+.connect .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--dim);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer button{background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0;font-size:13px}
+</style>
+</head>
+<body class="locked">
+
+<!-- ================= INTRO ================= -->
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <canvas id="introCv" aria-hidden="true"></canvas>
+  <div class="intro-top">
+    <span class="pill"><span class="dot"></span>detector online</span>
+    <button type="button" id="skipIntro">Skip intro</button>
   </div>
-
-  <hr />
-
-  <h2>Skills</h2>
-  <ul>
-    <li><strong>Languages</strong>: Python, C++, SQL, Bash, Shell, R, RStudio</li>
-    <li><strong>Data & ML</strong>:  PyTorch, NumPy, Git, Anaconda, Scikit-Learn, SQL, Pandas, Power BI.</li>
-    <li><strong>Simulation</strong>: Object Oriented Programming, Linear Regression, Logistic Regression, KNN, Principal Component Analysis (PCA), Support Vector Machines (SVM), Random Forest, Neural Networks</li>
-    <li><strong>Computer Science Foundations</strong>: Data Structures (Arrays, Trees, Graphs, Hash Tables), Algorithms (Sorting, Dynamic Programming, Recursion)</li>
-    <li><strong>Data Manipulation</strong>: Data Wrangling, Data Visualization, Statistical Modeling, Predictive Analytics</li>
-  </ul>
+  <div class="intro-card">
+    <h1 id="introTitle">hello, i'm EK.</h1>
+    <p>Before you come in, set up the detector.</p>
+    <div class="lbl">Pick a light source</div>
+    <div class="sources" role="radiogroup" aria-label="Accent color">
+      <button type="button" class="src" role="radio" data-acc="cherenkov"><i style="background:#4FD1FF"></i>Cherenkov</button>
+      <button type="button" class="src" role="radio" data-acc="aurora"><i style="background:#4EF0A0"></i>Aurora</button>
+      <button type="button" class="src" role="radio" data-acc="solar"><i style="background:#FF9A45"></i>Solar</button>
+      <button type="button" class="src" role="radio" data-acc="nebula"><i style="background:#B48CFF"></i>Nebula</button>
+    </div>
+    <button type="button" class="toggle" id="motionToggle" role="switch" aria-checked="false"><span class="sw"></span>Reduce motion</button>
+    <button type="button" class="btn solid" id="enter"><span>Smash two nuclei and enter</span><span aria-hidden="true">⚛</span></button>
+  </div>
 </div>
 
+<!-- ================= NAV ================= -->
+<nav class="top" aria-label="Primary">
+  <a class="me" href="#hero">ek.</a>
+  <a class="hide-m" href="#hello">hello</a>
+  <a href="#work">observations</a>
+  <a class="hide-m" href="#bench">bench</a>
+  <a href="#orbits">orbits</a>
+  <a href="#trails">trails</a>
+  <a href="#collide">collider</a>
+  <a class="hide-m" href="#lab">lab</a>
+  <a href="#connect">say hi</a>
+  <button class="sw-acc" id="cycleAcc" type="button" aria-label="Change light source"></button>
+</nav>
 
-<!-- <h2>Education</h2>
-  <div class="education">
-    {% for edu in site.data.education %}
-      <div class="education-entry">
-        <h3 class="institution">{{ edu.institution }}</h3>
-        <p class="degree">{{ edu.degree }}</p>
-        <p class="description">{{ edu.description }}</p>
+<!-- ================= HERO ================= -->
+<header id="hero">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <span class="pill"><span class="dot"></span>co-author, arXiv 2610.29685 · open to data science &amp; ML roles</span>
+    <p class="hi">hello, i'm</p>
+    <h1>Ekaksh<br>Kataria</h1>
+    <p class="role">physicist turned <b>data scientist</b>. i build bayesian models, ml pipelines and llm systems, and i like models that know how unsure they are.</p>
+    <div class="hero-cta">
+      <a class="btn solid" href="#work">See the work</a>
+      <a class="btn" href="https://arxiv.org/abs/2610.29685">Read the paper</a>
+    </div>
+  </div>
+  <div class="hint">move to bend the field · click to collide</div>
+</header>
+
+<main>
+<!-- ================= HELLO ================= -->
+<section id="hello">
+  <div class="wrap hello">
+    <div>
+      <h2 class="sec">a little <em>hello</em></h2>
+      <p class="big">I studied physics at Michigan State and spent my undergrad writing samplers and neural networks for nuclear and plasma physics.</p>
+      <p>Then I took that toolkit into finance: a metadata search agent and data quality testing at Credit One Bank, and now API test automation for a credit union's core banking modernization.</p>
+      <p>The thread through all of it: careful models, honest error bars, and code that holds up in production. Next I'd like to go deeper into physics-informed machine learning.</p>
+    </div>
+    <div class="constants" aria-label="Quick facts">
+      <div class="head"><span>my fundamental constants</span><span>measured 2026</span></div>
+      <dl>
+        <div class="row"><dt>λ</dt><dd>Las Vegas, NV<small>location</small></dd></div>
+        <div class="row"><dt>ψ</dt><dd>B.S. Physics, minor in Data Science<small>Michigan State · Dec 2024 · Dean's List</small></dd></div>
+        <div class="row"><dt>ħ</dt><dd>Software Engineer, Test Automation<small>UFCU via Tech Mahindra · now</small></dd></div>
+        <div class="row"><dt>Λ</dt><dd>1 paper on arXiv<small>Gaussian-process emulation · Oct 2026</small></dd></div>
+        <div class="row"><dt>Σ</dt><dd>Python, SQL, C++, PyTorch, JAX<small>daily drivers</small></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OBSERVATIONS ================= -->
+<section id="work">
+  <div class="wrap">
+    <div class="car-head">
+      <div>
+        <h2 class="sec">observations</h2>
+        <p class="secsub">Things I've built and studied. Each card's event display is drawn from its own random seed.</p>
       </div>
-    {% endfor %}
-  </div> -->
+      <div class="car-ctl">
+        <button type="button" id="carPrev" aria-label="Previous observation">‹</button>
+        <span id="carCount" aria-live="polite">01 / 06</span>
+        <button type="button" id="carNext" aria-label="Next observation">›</button>
+      </div>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="swipe">swipe or use the arrows · open a card for the full story</div>
+  </div>
+</section>
+
+<dialog id="obsDlg" aria-labelledby="dlgTitle">
+  <div class="dh"><canvas id="dlgCv" aria-hidden="true"></canvas><button class="close" type="button" id="dlgClose" aria-label="Close">×</button></div>
+  <div class="db" id="dlgBody"></div>
+</dialog>
+
+
+<!-- ================= BENCH (live GitHub) ================= -->
+<section id="bench">
+  <div class="wrap">
+    <h2 class="sec">on the bench</h2>
+    <p class="secsub">What I'm building right now, pulled live from GitHub every time this page loads.</p>
+    <div class="bench" id="benchGrid" aria-live="polite"><p class="bench-msg">Loading repositories…</p></div>
+  </div>
+</section>
+
+<!-- ================= ORBITS ================= -->
+<section id="orbits">
+  <div class="wrap">
+    <h2 class="sec">orbits</h2>
+    <p class="secsub">My experience as a little solar system. "Now" sits at the center, and earlier roles orbit farther out and more slowly. The periods follow Kepler's third law.</p>
+    <div class="orbits">
+      <div class="orb-stage"><canvas id="orbCv" aria-label="Orbit diagram of roles. Use the buttons to change the selected role."></canvas><div class="orb-note">click a planet</div></div>
+      <div class="orb-card" aria-live="polite">
+        <div class="now"><span class="dot"></span><span id="orbState">observing</span></div>
+        <h3 id="orbTitle"></h3>
+        <div class="org" id="orbOrg"></div>
+        <div class="when" id="orbWhen"></div>
+        <ul id="orbList"></ul>
+        <div class="orb-ctl">
+          <button type="button" id="orbPrev" aria-label="Previous role">‹ prev</button>
+          <button type="button" id="orbPause" aria-label="Pause orbits">pause</button>
+          <button type="button" id="orbNext" aria-label="Next role">next ›</button>
+          <span class="count" id="orbCount"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRAILS ================= -->
+<section id="trails">
+  <div class="wrap">
+    <h2 class="sec">trail log</h2>
+    <p class="secsub">Away from the keyboard I'm usually on a trail. Each peak on the profile is a hike; click one to see it.</p>
+    <div class="profile"><canvas id="profCv" aria-label="Elevation profile of hikes. Use the cards below to open each hike."></canvas></div>
+    <div class="hikes" id="hikes"></div>
+  </div>
+</section>
+
+<dialog id="hikeDlg" aria-label="Hike photo">
+  <div class="hk-media" id="hkMedia"></div>
+  <button class="close" type="button" id="hkClose" aria-label="Close">×</button>
+  <div class="hk-bar">
+    <button type="button" id="hkPrev" aria-label="Previous photo">‹</button>
+    <div class="hk-cap" id="hkCap"></div>
+    <button type="button" id="hkNext" aria-label="Next photo">›</button>
+  </div>
+</dialog>
+
+<!-- ================= COLLIDER ================= -->
+<section id="collide">
+  <div class="wrap">
+    <h2 class="sec">collide two roles</h2>
+    <p class="secsub">Load one role into each beam and set the energy split. The detector shows what comes out, and skills both roles share light up as resonances.</p>
+    <div class="collider">
+      <div class="beams">
+        <div class="beam a"><h4>beam A</h4><div class="opts" id="beamA" role="radiogroup" aria-label="Beam A role"></div></div>
+        <div class="vs" aria-hidden="true">×</div>
+        <div class="beam b"><h4>beam B</h4><div class="opts" id="beamB" role="radiogroup" aria-label="Beam B role"></div></div>
+      </div>
+      <canvas id="colCv" aria-hidden="true"></canvas>
+      <div class="energy">
+        <label for="energy">energy split</label>
+        <input type="range" id="energy" min="0" max="100" value="50">
+        <span class="split" id="split">50 / 50</span>
+        <button type="button" class="btn solid" id="fire">Collide</button>
+      </div>
+      <div class="presets">
+        <button class="chip" type="button" data-p="frib,c1">physics × finance</button>
+        <button class="chip" type="button" data-p="cmse,ufcu">research × production</button>
+        <button class="chip" type="button" data-p="frib,ufcu">then × now</button>
+        <button class="chip" type="button" data-p="shuffle">shuffle</button>
+      </div>
+      <div class="out" aria-live="polite">
+        <p class="read" id="readout"></p>
+        <div class="det" id="detected"></div>
+        <div class="legend">bigger = stronger signal · outlined in the second color = shared by both beams</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= LAB ================= -->
+<section id="lab">
+  <div class="wrap">
+    <h2 class="sec">the lab</h2>
+    <p class="secsub">How this site is made, plus a terminal if you'd rather type. Try <b>help</b>.</p>
+    <div class="lab">
+      <div class="made">
+        <h3>how this is made</h3>
+        <p>One hand-written HTML file: no frameworks and no build step. Every animation is plain canvas drawing.</p>
+        <p>The hero is a small particle simulation: your cursor acts like a mass, and clicking sends out an impulse. The orbits use Kepler's third law, and each observation card draws a fake detector event from a seeded random number generator.</p>
+        <p>Designed and built together with Claude, hosted for free on GitHub Pages.</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Canvas 2D</span><span class="tag">Claude</span><span class="tag">GitHub Pages</span></div>
+      </div>
+      <div class="term">
+        <div class="bar"><i></i><i></i><i></i><span>ek@lab</span></div>
+        <div id="termOut" role="log" aria-live="polite"></div>
+        <form id="termForm" autocomplete="off"><label for="termIn">ek@lab ~ %</label><input id="termIn" spellcheck="false" aria-label="Terminal command"></form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONNECT ================= -->
+<section class="connect" id="connect">
+  <div class="wrap">
+    <h2>say hi.</h2>
+    <p>Hiring for data science, machine learning, or a research role? I'd like to hear about it.</p>
+    <a class="mail" href="mailto:ekakshkataria212@gmail.com">ekakshkataria212@gmail.com</a>
+    <a class="phone" href="tel:+15179444314">+1 (517) 944-4314</a>
+    <div class="row">
+      <a class="btn solid" href="https://www.linkedin.com/in/ekaksh-kataria/">LinkedIn</a>
+      <a class="btn" href="https://github.com/katariae">GitHub</a>
+      <a class="btn" href="https://arxiv.org/abs/2610.29685">arXiv</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Ekaksh Kataria</span><button type="button" id="replay">replay the intro</button></div></footer>
+
+<script src="data.js"></script>
+<script>
+(() => {
+"use strict";
+const D = window.SITE;
+/* ---------------- settings ---------------- */
+const ACC = {
+  cherenkov:{c:"#4FD1FF",c2:"#FFB45C",rgb:"79,209,255"},
+  aurora:{c:"#4EF0A0",c2:"#B48CFF",rgb:"78,240,160"},
+  solar:{c:"#FF9A45",c2:"#4FD1FF",rgb:"255,154,69"},
+  nebula:{c:"#B48CFF",c2:"#4EF0A0",rgb:"180,140,255"}
+};
+const store = { get(k){ try{return localStorage.getItem(k)}catch(e){return null} }, set(k,v){ try{localStorage.setItem(k,v)}catch(e){} } };
+const S = { acc: store.get("acc") || "cherenkov", reduce: store.get("reduce") === "1" || matchMedia("(prefers-reduced-motion: reduce)").matches };
+if (!ACC[S.acc]) S.acc = "cherenkov";
+const col = () => ACC[S.acc];
+const redrawers = [];
+function applyAcc(){
+  const a = col(), r = document.documentElement.style;
+  r.setProperty("--acc", a.c); r.setProperty("--acc2", a.c2); r.setProperty("--accRGB", a.rgb);
+  document.querySelectorAll(".src").forEach(b => b.setAttribute("aria-checked", b.dataset.acc === S.acc));
+  redrawers.forEach(f => f());
+}
+function setAcc(k){ S.acc = k; store.set("acc", k); applyAcc(); }
+function setReduce(v){ S.reduce = v; store.set("reduce", v ? "1" : "0"); document.getElementById("motionToggle").setAttribute("aria-checked", v); }
+
+/* ---------------- helpers ---------------- */
+function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function fit(cv){ const d = Math.min(devicePixelRatio || 1, 2), r = cv.getBoundingClientRect(); cv.width = Math.max(1, r.width * d); cv.height = Math.max(1, r.height * d); const x = cv.getContext("2d"); x.setTransform(d,0,0,d,0,0); return { x, w:r.width, h:r.height }; }
+const visible = new Map();
+const io = new IntersectionObserver(es => es.forEach(e => visible.set(e.target, e.isIntersecting)), { rootMargin: "100px" });
+function watch(el){ visible.set(el, true); io.observe(el); }
+const isVis = el => visible.get(el) !== false;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+function rgba(hex, a){ const n = parseInt(hex.slice(1), 16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+
+/* ---------------- event display (shared) ---------------- */
+function eventDisplay(cv, seed, opts = {}){
+  const { x, w, h } = fit(cv), R = rng(seed), a = col();
+  x.fillStyle = "#050608"; x.fillRect(0, 0, w, h);
+  const cx = w / 2, cy = h / 2, M = Math.min(w, h) * (opts.scale || .46);
+  [0.18, 0.42, 0.62, 0.86, 1].forEach((f, i) => { x.beginPath(); x.arc(cx, cy, M * f, 0, 7); x.strokeStyle = i === 4 ? "#262a31" : "#16191e"; x.lineWidth = i === 4 ? 2 : 1; x.stroke(); });
+  for (let i = 0; i < 24; i++){ const t = i / 24 * Math.PI * 2; x.beginPath(); x.moveTo(cx + Math.cos(t) * M * .62, cy + Math.sin(t) * M * .62); x.lineTo(cx + Math.cos(t) * M, cy + Math.sin(t) * M); x.strokeStyle = "#111418"; x.stroke(); }
+  const n = 14 + Math.floor(R() * 16);
+  for (let k = 0; k < n; k++){
+    const th = R() * Math.PI * 2, kap = (R() - .5) * 2 / M * (R() < .3 ? 6 : 1.6), len = M * (.35 + R() * .65), hot = R() < .28;
+    x.beginPath(); let px = cx, py = cy, ang = th; x.moveTo(px, py);
+    for (let s = 0; s < len; s += 2){ ang += kap * 2; px += Math.cos(ang) * 2; py += Math.sin(ang) * 2; x.lineTo(px, py); }
+    x.strokeStyle = hot ? a.c : (R() < .4 ? a.c2 : "#6b7079"); x.globalAlpha = hot ? .95 : .55; x.lineWidth = hot ? 2 : 1.2; x.stroke(); x.globalAlpha = 1;
+    if (len > M * .62){ const t = Math.atan2(py - cy, px - cx), e = 4 + R() * 18; x.save(); x.translate(cx, cy); x.rotate(t); x.fillStyle = hot ? a.c : a.c2; x.globalAlpha = .35 + R() * .4; x.fillRect(M * .88, -3, e * (M / 160), 6); x.restore(); x.globalAlpha = 1; }
+  }
+  x.beginPath(); x.arc(cx, cy, 3, 0, 7); x.fillStyle = "#fff"; x.fill();
+}
+
+/* ---------------- intro ---------------- */
+const intro = document.getElementById("intro"), icv = document.getElementById("introCv");
+let introAnim = null, entering = false;
+function drawIntro(t, phase){
+  const { x, w, h } = fit(icv), a = col(), cx = w / 2, cy = h * .26, M = Math.min(w, h) * .2;
+  x.clearRect(0, 0, w, h);
+  const R = rng(7); for (let i = 0; i < 160; i++){ x.fillStyle = `rgba(255,255,255,${.08 + R() * .25})`; x.fillRect(R() * w, R() * h, 1.2, 1.2); }
+  [1, .72, .45, .2].forEach((f, i) => { x.beginPath(); x.arc(cx, cy, M * f, 0, 7); x.strokeStyle = i ? "#1a1d22" : "#2a2e35"; x.lineWidth = i ? 1 : 2; x.stroke(); });
+  const spin = t * .0004; x.save(); x.translate(cx, cy); x.rotate(spin);
+  for (let i = 0; i < 36; i++){ x.rotate(Math.PI * 2 / 36); x.fillStyle = rgba(a.c, .18 + .18 * Math.sin(t * .002 + i)); x.fillRect(M * .78, -2, M * .16, 4); }
+  x.restore();
+  x.beginPath(); x.moveTo(0, cy); x.lineTo(w, cy); x.strokeStyle = "#15181d"; x.stroke();
+  if (phase !== null){
+    const p = Math.min(phase / 900, 1), e = p * p;
+    if (p < 1){ [[-1, a.c], [1, a.c2]].forEach(([s, c]) => { const bx = cx + s * (w / 2) * (1 - e); x.beginPath(); x.arc(bx, cy, 7, 0, 7); x.fillStyle = c; x.shadowColor = c; x.shadowBlur = 20; x.fill(); x.shadowBlur = 0;
+      x.beginPath(); x.moveTo(bx, cy); x.lineTo(bx + s * 120, cy); x.strokeStyle = rgba(c, .4); x.lineWidth = 3; x.stroke(); x.lineWidth = 1; }); }
+    else { const q = (phase - 900) / 700, B = rng(3);
+      x.beginPath(); x.arc(cx, cy, 30 + q * 400, 0, 7); x.fillStyle = rgba(a.c, Math.max(0, .5 - q * .5)); x.fill();
+      for (let i = 0; i < 90; i++){ const th = B() * 7, sp = 80 + B() * 520, d = sp * (1 - Math.exp(-q * 3)); x.beginPath(); x.moveTo(cx + Math.cos(th) * d * .7, cy + Math.sin(th) * d * .7); x.lineTo(cx + Math.cos(th) * d, cy + Math.sin(th) * d); x.strokeStyle = B() < .5 ? a.c : a.c2; x.lineWidth = 2; x.stroke(); } }
+  }
+}
+function introLoop(){ let start = null, t0 = performance.now(); const step = now => { if (!intro.isConnected) return; const ph = entering ? (start === null ? (start = now, 0) : now - start) : null; drawIntro(now - t0, ph); if (entering && ph > 1500){ finishIntro(); return; } introAnim = requestAnimationFrame(step); }; introAnim = requestAnimationFrame(step); }
+function finishIntro(){ cancelAnimationFrame(introAnim); intro.classList.add("gone"); document.body.classList.remove("locked"); store.set("seen", "1"); entering = false; setTimeout(() => document.getElementById("hero").focus?.(), 50); }
+function openIntro(){ intro.classList.remove("gone"); document.body.classList.add("locked"); entering = false; if (S.reduce) drawIntro(0, null); else introLoop(); document.getElementById("enter").focus(); }
+document.querySelectorAll(".src").forEach(b => b.addEventListener("click", () => setAcc(b.dataset.acc)));
+document.getElementById("motionToggle").addEventListener("click", () => setReduce(!S.reduce));
+document.getElementById("enter").addEventListener("click", () => { if (S.reduce){ finishIntro(); return; } entering = true; });
+document.getElementById("skipIntro").addEventListener("click", finishIntro);
+document.getElementById("replay").addEventListener("click", () => { scrollTo(0, 0); openIntro(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !intro.classList.contains("gone")) finishIntro(); });
+document.getElementById("cycleAcc").addEventListener("click", () => { const k = Object.keys(ACC); setAcc(k[(k.indexOf(S.acc) + 1) % k.length]); });
+
+/* ---------------- hero field ---------------- */
+const fcv = document.getElementById("field"), hero = document.getElementById("hero");
+let F, parts = [], mouse = { x: -1e4, y: -1e4, on: false }, lastT = 0;
+function initField(){ F = fit(fcv); const n = Math.round(Math.min(260, F.w * F.h / 5200)); const R = rng(11);
+  parts = Array.from({ length: n }, () => ({ x: R() * F.w, y: R() * F.h, vx: 0, vy: 0, m: .6 + R() * 1.4, hot: R() < .18 })); F.x.fillStyle = "#000"; F.x.fillRect(0, 0, F.w, F.h); }
+function stepField(t){
+  const x = F.x, a = col(), dt = Math.min((t - lastT) / 16.7, 2.5) || 1; lastT = t;
+  x.fillStyle = "rgba(0,0,0,0.16)"; x.fillRect(0, 0, F.w, F.h);
+  for (const p of parts){
+    const fx0 = Math.sin(p.y * .006 + t * .0003) * .03, fy0 = Math.cos(p.x * .006 - t * .00025) * .03;
+    p.vx += fx0 * dt; p.vy += fy0 * dt;
+    if (mouse.on){ const dx = mouse.x - p.x, dy = mouse.y - p.y, d2 = dx * dx + dy * dy + 900, f = 900 / d2 / Math.sqrt(d2) * 3.2; p.vx += dx * f * dt; p.vy += dy * f * dt; }
+    p.vx *= .985; p.vy *= .985;
+    const sp = Math.hypot(p.vx, p.vy); if (sp > 6){ p.vx *= 6 / sp; p.vy *= 6 / sp; }
+    const ox = p.x, oy = p.y; p.x += p.vx * dt; p.y += p.vy * dt;
+    if (p.x < -20) p.x += F.w + 40; if (p.x > F.w + 20) p.x -= F.w + 40; if (p.y < -20) p.y += F.h + 40; if (p.y > F.h + 20) p.y -= F.h + 40;
+    if (Math.abs(p.x - ox) > 50 || Math.abs(p.y - oy) > 50) continue;
+    x.beginPath(); x.moveTo(ox, oy); x.lineTo(p.x, p.y); x.strokeStyle = p.hot ? a.c : "rgba(220,225,235,.5)"; x.lineWidth = p.m; x.stroke();
+  }
+}
+function staticField(){ initField(); const x = F.x, a = col(); for (const p of parts){ x.beginPath(); x.arc(p.x, p.y, p.m, 0, 7); x.fillStyle = p.hot ? a.c : "rgba(220,225,235,.45)"; x.fill(); } }
+hero.addEventListener("pointermove", e => { const r = fcv.getBoundingClientRect(); mouse = { x: e.clientX - r.left, y: e.clientY - r.top, on: true }; });
+hero.addEventListener("pointerleave", () => mouse.on = false);
+hero.addEventListener("click", e => { if (e.target.closest("a,button")) return; const r = fcv.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+  for (const p of parts){ const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy) + 20; const k = 900 / d; p.vx += dx / d * Math.min(k, 9); p.vy += dy / d * Math.min(k, 9); } if (S.reduce) staticField(); });
+watch(hero);
+
+/* ---------------- observations ---------------- */
+const OBS = D.observations;
+const track = document.getElementById("track");
+OBS.forEach((o, i) => {
+  const b = document.createElement("button"); b.type = "button"; b.className = "obs"; b.setAttribute("aria-label", `Open observation ${i + 1}: ${o.t}`);
+  b.innerHTML = `<canvas aria-hidden="true"></canvas><div class="meta"><div class="no"><span>obs. ${String(i + 1).padStart(2, "0")}</span><span>${o.k}</span></div><h3>${o.t}</h3><p>${o.s}</p><span class="open">open the event</span></div>`;
+  b.addEventListener("click", () => openObs(i)); track.appendChild(b);
+});
+const drawCards = () => track.querySelectorAll(".obs canvas").forEach((c, i) => eventDisplay(c, 101 + i * 37));
+redrawers.push(drawCards);
+const cards = () => [...track.children];
+function curIdx(){ const sl = track.scrollLeft; let best = 0, bd = 1e9; cards().forEach((c, i) => { const d = Math.abs(c.offsetLeft - track.offsetLeft - sl - 24); if (d < bd){ bd = d; best = i; } }); return best; }
+function upCount(){ document.getElementById("carCount").textContent = `${String(curIdx() + 1).padStart(2, "0")} / ${String(OBS.length).padStart(2, "0")}`; }
+function go(d){ const i = Math.max(0, Math.min(OBS.length - 1, curIdx() + d)); track.scrollTo({ left: cards()[i].offsetLeft - track.offsetLeft - 24, behavior: S.reduce ? "auto" : "smooth" }); }
+document.getElementById("carPrev").addEventListener("click", () => go(-1));
+document.getElementById("carNext").addEventListener("click", () => go(1));
+track.addEventListener("scroll", () => requestAnimationFrame(upCount), { passive: true });
+const dlg = document.getElementById("obsDlg");
+function openObs(i){ const o = OBS[i];
+  document.getElementById("dlgBody").innerHTML = `<h3 id="dlgTitle">${o.t}</h3><p class="sub">${o.sub}</p><ul>${o.pts.map(p => `<li>${p}</li>`).join("")}</ul><div class="tags">${o.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div><div class="dl">${o.links.map(([l, h], j) => `<a class="btn ${j ? "" : "solid"}" href="${h}">${l}</a>`).join("")}</div>`;
+  dlg.showModal(); eventDisplay(document.getElementById("dlgCv"), 101 + i * 37, { scale: .62 }); }
+document.getElementById("dlgClose").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+
+/* ---------------- orbits ---------------- */
+const ROLES = D.roles;
+const ocv = document.getElementById("orbCv"), stage = ocv.parentElement;
+let O, sel = 0, paused = false, oT = 0, oLast = null;
+const phase0 = [0.3, 2.2, 4.1, 5.4, 1.2];
+function orbR(i){ return Math.min(O.w * .9, O.h * 1.25) * (0.17 + i * 0.075); }
+function orbPos(i){ const r = orbR(i), w = 0.00055 * Math.pow(orbR(0) / r, 1.5); const th = phase0[i] + oT * w; return [O.w / 2 + Math.cos(th) * r, O.h / 2 + Math.sin(th) * r * 0.62]; }
+function drawOrbits(){
+  if (!O) return; const x = O.x, a = col(); x.clearRect(0, 0, O.w, O.h);
+  const R = rng(5); for (let i = 0; i < 90; i++){ x.fillStyle = `rgba(255,255,255,${.06 + R() * .2})`; x.fillRect(R() * O.w, R() * O.h, 1.1, 1.1); }
+  ROLES.forEach((_, i) => { x.beginPath(); x.ellipse(O.w / 2, O.h / 2, orbR(i), orbR(i) * .62, 0, 0, 7); x.strokeStyle = i === sel ? rgba(a.c, .55) : "#1b1e24"; x.lineWidth = i === sel ? 1.5 : 1; x.setLineDash(i === sel ? [] : [3, 5]); x.stroke(); x.setLineDash([]); });
+  const g = x.createRadialGradient(O.w / 2, O.h / 2, 0, O.w / 2, O.h / 2, 46); g.addColorStop(0, rgba(a.c, .95)); g.addColorStop(.3, rgba(a.c, .35)); g.addColorStop(1, rgba(a.c, 0));
+  x.fillStyle = g; x.beginPath(); x.arc(O.w / 2, O.h / 2, 46, 0, 7); x.fill();
+  x.fillStyle = "#000"; x.font = "600 11px Manrope, sans-serif"; x.textAlign = "center"; x.fillText("now", O.w / 2, O.h / 2 + 4);
+  ROLES.forEach((r, i) => { const [px, py] = orbPos(i), on = i === sel, rad = on ? 10 : 6.5;
+    if (on){ x.beginPath(); x.arc(px, py, 20, 0, 7); x.strokeStyle = rgba(a.c2, .7); x.lineWidth = 1.5; x.stroke(); }
+    x.beginPath(); x.arc(px, py, rad, 0, 7); x.fillStyle = on ? a.c2 : "#cfd3da"; x.fill();
+    x.font = (on ? "600 " : "500 ") + "12px Manrope, sans-serif"; x.fillStyle = on ? "#EEEAE2" : "#8C9099"; x.fillText(r.short, px, py - (on ? 28 : 16)); });
+}
+function showRole(i){ sel = (i + ROLES.length) % ROLES.length; const r = ROLES[sel];
+  document.getElementById("orbTitle").textContent = r.t; document.getElementById("orbOrg").textContent = r.org; document.getElementById("orbWhen").textContent = r.when;
+  document.getElementById("orbList").innerHTML = r.pts.map(p => `<li>${p}</li>`).join("");
+  document.getElementById("orbCount").textContent = `${String(sel + 1).padStart(2, "0")} / ${String(ROLES.length).padStart(2, "0")}`; drawOrbits(); }
+ocv.addEventListener("click", e => { const rc = ocv.getBoundingClientRect(), mx = e.clientX - rc.left, my = e.clientY - rc.top; let best = -1, bd = 34;
+  ROLES.forEach((_, i) => { const [px, py] = orbPos(i), d = Math.hypot(px - mx, py - my); if (d < bd){ bd = d; best = i; } }); if (best >= 0) showRole(best); });
+document.getElementById("orbPrev").addEventListener("click", () => showRole(sel - 1));
+document.getElementById("orbNext").addEventListener("click", () => showRole(sel + 1));
+const pauseBtn = document.getElementById("orbPause");
+pauseBtn.addEventListener("click", () => { paused = !paused; pauseBtn.textContent = paused ? "play" : "pause"; pauseBtn.setAttribute("aria-label", paused ? "Play orbits" : "Pause orbits"); document.getElementById("orbState").textContent = paused ? "paused" : "observing"; });
+watch(stage); redrawers.push(drawOrbits);
+
+/* ---------------- collider ---------------- */
+let A = "frib", B = "c1", energy = 50, C, burst = null;
+const ccv = document.getElementById("colCv");
+function beamButtons(id, get, set){ const box = document.getElementById(id); box.innerHTML = "";
+  ROLES.forEach(r => { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = r.short; b.setAttribute("role", "radio"); b.setAttribute("aria-pressed", get() === r.id); b.setAttribute("aria-checked", get() === r.id);
+    b.addEventListener("click", () => { set(r.id); syncBeams(); fire(); }); box.appendChild(b); }); }
+function syncBeams(){ beamButtons("beamA", () => A, v => A = v); beamButtons("beamB", () => B, v => B = v); }
+function result(){
+  const ra = ROLES.find(r => r.id === A), rb = ROLES.find(r => r.id === B), e = energy / 100, m = new Map();
+  ra.skills.forEach(s => m.set(s, { s, w: (1 - e), sh: false }));
+  rb.skills.forEach(s => { if (m.has(s)){ const o = m.get(s); if (A !== B){ o.w += e + .6; o.sh = true; } } else m.set(s, { s, w: e, sh: false }); });
+  const list = [...m.values()].map((o, i) => ({ ...o, w: o.w + (i % 7) * .001 })).sort((p, q) => q.w - p.w).slice(0, 10);
+  return { ra, rb, list, shared: [...m.values()].filter(o => o.sh).length };
+}
+function fire(){
+  const { ra, rb, list, shared } = result(), e = energy;
+  document.getElementById("readout").innerHTML = A === B ? `${ra.short} × ${ra.short} gives a <em>clean beam</em>: the same role against itself.` :
+    `${ra.short} × ${rb.short} at ${100 - e} / ${e} produces <em>${shared} shared ${shared === 1 ? "signal" : "signals"}</em>${shared ? ": " + list.filter(o => o.sh).slice(0, 3).map(o => o.s).join(", ") : ". Different worlds, which is the fun part"}.`;
+  const mx = Math.max(...list.map(o => o.w));
+  document.getElementById("detected").innerHTML = list.map(o => `<span class="${o.sh ? "shared" : ""}" style="font-size:${12 + 8 * o.w / mx}px;opacity:${.55 + .45 * o.w / mx}">${o.s}</span>`).join("");
+  burst = { t0: performance.now(), seed: (A.length * 31 + B.length * 7 + e) | 0, n: list.length, sh: shared };
+  if (S.reduce) drawCollider(performance.now() + 2000);
+}
+function drawCollider(now){
+  if (!C) return; const x = C.x, a = col(), cy = C.h / 2, cx = C.w / 2; x.clearRect(0, 0, C.w, C.h);
+  x.strokeStyle = "#16191e"; for (let i = 1; i < 6; i++){ x.beginPath(); x.arc(cx, cy, i * 34, 0, 7); x.stroke(); }
+  x.beginPath(); x.moveTo(0, cy); x.lineTo(C.w, cy); x.strokeStyle = "#1d2026"; x.stroke();
+  if (!burst) return; const t = (now - burst.t0) / 1000, R = rng(burst.seed);
+  if (t < .6){ const p = t / .6, e = p * p; [[-1, a.c, 1 - energy / 100], [1, a.c2, energy / 100]].forEach(([s, c, w]) => { const bx = cx + s * cx * (1 - e); x.beginPath(); x.arc(bx, cy, 4 + w * 8, 0, 7); x.fillStyle = c; x.shadowColor = c; x.shadowBlur = 16; x.fill(); x.shadowBlur = 0; }); return; }
+  const q = Math.min((t - .6) / 1.4, 1), n = 40 + burst.n * 8;
+  if (q < 1){ x.beginPath(); x.arc(cx, cy, 10 + q * 90, 0, 7); x.fillStyle = rgba(a.c, .35 * (1 - q)); x.fill(); }
+  for (let i = 0; i < n; i++){ const th = R() * 7, sp = 60 + R() * Math.max(cx, 200), kap = (R() - .5) * .012, hot = i < burst.sh * 6, c = hot ? a.c2 : (R() < (1 - energy / 100) ? a.c : "#9aa0aa");
+    const L = sp * (1 - Math.exp(-q * 3)); x.beginPath(); let px = cx, py = cy, ang = th; x.moveTo(px, py);
+    for (let s = 0; s < L; s += 4){ ang += kap * 4; px += Math.cos(ang) * 4; py += Math.sin(ang) * 4 * .8; x.lineTo(px, py); }
+    x.strokeStyle = c; x.globalAlpha = hot ? .95 : .5; x.lineWidth = hot ? 2 : 1; x.stroke(); x.globalAlpha = 1; }
+}
+document.getElementById("energy").addEventListener("input", e => { energy = +e.target.value; document.getElementById("split").textContent = `${100 - energy} / ${energy}`; });
+document.getElementById("energy").addEventListener("change", fire);
+document.getElementById("fire").addEventListener("click", fire);
+document.querySelectorAll(".presets .chip").forEach(b => b.addEventListener("click", () => {
+  if (b.dataset.p === "shuffle"){ const ids = ROLES.map(r => r.id); A = ids[Math.random() * ids.length | 0]; do { B = ids[Math.random() * ids.length | 0]; } while (B === A); energy = 20 + (Math.random() * 60 | 0); }
+  else [A, B] = b.dataset.p.split(",");
+  document.getElementById("energy").value = energy; document.getElementById("split").textContent = `${100 - energy} / ${energy}`; syncBeams(); fire(); }));
+watch(ccv); redrawers.push(() => drawCollider(performance.now() + 5000));
+
+
+/* ---------------- bench: live GitHub ---------------- */
+const LANG = { Python:"#3572A5", "Jupyter Notebook":"#DA5B0B", "C++":"#f34b7d", JavaScript:"#f1e05a", TypeScript:"#3178c6", HTML:"#e34c26", R:"#198CE7", Shell:"#89e051", MATLAB:"#e16737" };
+function ago(iso){ const d = (Date.now() - new Date(iso)) / 864e5; if (d < 1) return "today"; if (d < 2) return "yesterday"; if (d < 30) return Math.floor(d) + " days ago"; if (d < 365) return Math.floor(d / 30) + " months ago"; return Math.floor(d / 365) + " years ago"; }
+async function loadBench(){
+  const box = document.getElementById("benchGrid");
+  try {
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 7000);
+    const r = await fetch(`https://api.github.com/users/${D.githubUser}/repos?per_page=100&sort=pushed`, { signal: ctl.signal, headers: { Accept: "application/vnd.github+json" } });
+    if (!r.ok) throw new Error(r.status);
+    const hide = (D.githubHide || []).map(n => n.toLowerCase());
+    let repos = (await r.json()).filter(x => !x.fork && !x.archived && x.name.toLowerCase() !== `${D.githubUser}.github.io`.toLowerCase() && !hide.includes(x.name.toLowerCase()));
+    const tagged = repos.filter(x => (x.topics || []).includes(D.githubTopic));
+    repos = (tagged.length ? tagged : repos).sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at)).slice(0, 6);
+    if (!repos.length){ box.innerHTML = `<p class="bench-msg">Nothing public yet. New projects will show up here automatically.</p>`; return; }
+    box.innerHTML = repos.map(x => `<a class="repo" href="${x.html_url}"><h3>${esc(x.name)}</h3><p>${esc(x.description || "No description yet.")}</p><div class="rm">${x.language ? `<span class="lang"><i style="background:${LANG[x.language] || "var(--acc2)"}"></i>${esc(x.language)}</span>` : ""}<span>★ ${x.stargazers_count}</span><span class="pulse">updated ${ago(x.pushed_at)}</span></div></a>`).join("");
+  } catch (e) {
+    box.innerHTML = `<p class="bench-msg">Couldn't reach GitHub just now. See everything at <a href="${D.links.github}">github.com/${D.githubUser}</a>.</p>`;
+  }
+}
+
+/* ---------------- trail log ---------------- */
+const HIKES = [...(D.hikes || [])].sort((a, b) => a.date.localeCompare(b.date));
+let hSel = HIKES.length - 1, P = null, pSel = 0;
+function topo(cv, seed){
+  const { x, w, h } = fit(cv), R = rng(seed), a = col();
+  x.fillStyle = "#050608"; x.fillRect(0, 0, w, h);
+  const peaks = Array.from({ length: 2 + (R() * 2 | 0) }, () => ({ x: w * (.2 + R() * .6), y: h * (.25 + R() * .5), s: .6 + R() * .7, ph: R() * 7 }));
+  peaks.forEach((p, j) => { for (let k = 1; k <= 11; k++){ const r0 = k * Math.min(w, h) * .045 * p.s; x.beginPath();
+    for (let t = 0; t <= 64; t++){ const th = t / 64 * Math.PI * 2, r = r0 * (1 + .18 * Math.sin(3 * th + p.ph + k * .3) + .08 * Math.sin(5 * th - p.ph)); const px = p.x + Math.cos(th) * r, py = p.y + Math.sin(th) * r * .8; t ? x.lineTo(px, py) : x.moveTo(px, py); }
+    x.closePath(); x.strokeStyle = k % 5 === 0 ? rgba(a.c, .55) : rgba(a.c, .16); x.lineWidth = k % 5 === 0 ? 1.4 : 1; x.stroke(); }
+    x.fillStyle = a.c2; x.beginPath(); x.moveTo(p.x, p.y - 5); x.lineTo(p.x + 5, p.y + 4); x.lineTo(p.x - 5, p.y + 4); x.closePath(); x.fill(); });
+}
+const pics = hk => hk.photos && hk.photos.length ? hk.photos : (hk.photo ? [hk.photo] : []);
+function media(hk, i, el, j = 0){ const src = pics(hk)[j]; if (src){ const im = document.createElement("img"); im.src = src; im.decoding = "async"; im.alt = `${hk.trail}, ${hk.place}`; im.loading = "lazy"; im.className = el; return im; } const c = document.createElement("canvas"); c.className = el; c.dataset.seed = 500 + i * 13; c.setAttribute("aria-hidden", "true"); return c; }
+const fmtDate = d => { const [y, m] = d.split("-"); return new Date(+y, (+m || 1) - 1).toLocaleString("en-US", { month: "short", year: "numeric" }); };
+function buildHikes(){
+  const box = document.getElementById("hikes"); box.innerHTML = "";
+  HIKES.forEach((hk, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "hike"; b.setAttribute("aria-label", `Open hike: ${hk.trail}`);
+    b.appendChild(media(hk, i, "ph"));
+    b.insertAdjacentHTML("beforeend", `<div class="hm"><h3>${esc(hk.trail)}</h3><div class="pl">${esc(hk.place)} · ${fmtDate(hk.date)}</div><div class="st"><span>▲ ${hk.elev_ft.toLocaleString()} ft</span>${hk.miles ? `<span>${hk.miles} mi</span>` : ""}${hk.difficulty ? `<span>${esc(hk.difficulty)}</span>` : ""}${pics(hk).length > 1 ? `<span>${pics(hk).length} photos</span>` : ""}</div></div>`);
+    b.addEventListener("click", () => openHike(i)); box.appendChild(b); });
+  drawTopos();
+}
+const drawTopos = () => document.querySelectorAll("canvas.ph").forEach(c => topo(c, +c.dataset.seed));
+function drawProfile(){
+  if (!P || !HIKES.length) return; const x = P.x, a = col(), w = P.w, h = P.h, pad = 60;
+  x.clearRect(0, 0, w, h);
+  const maxE = Math.max(...HIKES.map(k => k.elev_ft)) * 1.1, X = i => pad + (HIKES.length === 1 ? .5 : i / (HIKES.length - 1)) * (w - pad * 2), Y = e => h - 26 - e / maxE * (h - 56);
+  x.strokeStyle = "#15181d"; for (let e = 0; e < maxE; e += 2000){ x.beginPath(); x.moveTo(0, Y(e)); x.lineTo(w, Y(e)); x.stroke(); x.fillStyle = "#3d4148"; x.font = "11px Manrope, sans-serif"; x.textAlign = "left"; if (e) x.fillText(e.toLocaleString() + " ft", 6, Y(e) - 4); }
+  x.beginPath(); x.moveTo(0, h);
+  const pts = HIKES.map((k, i) => [X(i), Y(k.elev_ft)]); x.lineTo(0, Y(HIKES[0].elev_ft * .45));
+  pts.forEach(([px, py], i) => { const prev = i ? pts[i - 1] : [0, Y(HIKES[0].elev_ft * .45)]; const vx = (prev[0] + px) / 2, vy = Math.max(prev[1], py) + 40; x.quadraticCurveTo(vx, vy, px, py); });
+  x.quadraticCurveTo((pts.at(-1)[0] + w) / 2, pts.at(-1)[1] + 50, w, Y(HIKES.at(-1).elev_ft * .45)); x.lineTo(w, h); x.closePath();
+  const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, rgba(a.c, .28)); g.addColorStop(1, rgba(a.c, 0)); x.fillStyle = g; x.fill(); x.strokeStyle = a.c; x.lineWidth = 2; x.stroke();
+  pts.forEach(([px, py], i) => { const on = i === hSel; x.beginPath(); x.arc(px, py, on ? 7 : 4.5, 0, 7); x.fillStyle = on ? a.c2 : "#EEEAE2"; x.fill();
+    x.fillStyle = on ? "#EEEAE2" : "#8C9099"; x.font = (on ? "600 " : "500 ") + "12px Manrope, sans-serif"; x.textAlign = px < 120 ? "left" : px > w - 120 ? "right" : "center"; x.fillText(HIKES[i].trail, px + (px < 120 ? -6 : px > w - 120 ? 6 : 0), py - 14); });
+  document.querySelectorAll(".hike").forEach((c, i) => c.classList.toggle("on", i === hSel));
+}
+const profCv = document.getElementById("profCv");
+profCv.addEventListener("click", e => { const r = profCv.getBoundingClientRect(), mx = e.clientX - r.left, pad = 60; let best = 0, bd = 1e9;
+  HIKES.forEach((_, i) => { const px = pad + (HIKES.length === 1 ? .5 : i / (HIKES.length - 1)) * (P.w - pad * 2), d = Math.abs(px - mx); if (d < bd){ bd = d; best = i; } }); hSel = best; drawProfile(); openHike(best); });
+const hdlg = document.getElementById("hikeDlg");
+function openHike(i, j = 0){ if (!HIKES.length) return; hSel = (i + HIKES.length) % HIKES.length; const hk = HIKES[hSel], n = Math.max(1, pics(hk).length); pSel = (j + n) % n; const m = document.getElementById("hkMedia"); m.innerHTML = "";
+  const el = media(hk, hSel, "big", pSel); m.appendChild(el);
+  document.getElementById("hkCap").innerHTML = `<b>${esc(hk.trail)}</b><span>${esc(hk.place)} · ${fmtDate(hk.date)} · ▲ ${hk.elev_ft.toLocaleString()} ft${hk.miles ? ` · ${hk.miles} mi` : ""}${hk.gain_ft ? ` · ${hk.gain_ft.toLocaleString()} ft gain` : ""}${hk.difficulty ? ` · ${esc(hk.difficulty)}` : ""}${n > 1 ? ` · photo ${pSel + 1} of ${n}` : ""}${hk.note ? " · " + esc(hk.note) : ""}${hk.alltrails ? ` · <a href="${hk.alltrails}">AllTrails</a>` : ""}</span>`;
+  if (!hdlg.open) hdlg.showModal(); if (el.tagName === "CANVAS") topo(el, +el.dataset.seed); drawProfile(); }
+function stepPhoto(d){ const n = Math.max(1, pics(HIKES[hSel]).length), k = pSel + d; if (k >= 0 && k < n) openHike(hSel, k); else if (d > 0) openHike(hSel + 1, 0); else { const pi = (hSel - 1 + HIKES.length) % HIKES.length; openHike(pi, Math.max(1, pics(HIKES[pi]).length) - 1); } }
+document.getElementById("hkPrev").addEventListener("click", () => stepPhoto(-1));
+document.getElementById("hkNext").addEventListener("click", () => stepPhoto(1));
+document.getElementById("hkClose").addEventListener("click", () => hdlg.close());
+hdlg.addEventListener("click", e => { if (e.target === hdlg) hdlg.close(); });
+hdlg.addEventListener("keydown", e => { if (e.key === "ArrowLeft") stepPhoto(-1); if (e.key === "ArrowRight") stepPhoto(1); });
+if (!HIKES.length) document.getElementById("trails").hidden = true;
+redrawers.push(() => { drawTopos(); drawProfile(); });
+
+/* ---------------- terminal ---------------- */
+const out = document.getElementById("termOut"), tin = document.getElementById("termIn"), hist = []; let hi = 0;
+function print(html){ out.insertAdjacentHTML("beforeend", html + "\n"); out.scrollTop = out.scrollHeight; }
+const CMD = {
+  help: () => `<span class="h">commands</span>\n  whoami      who is this\n  now         what i'm doing now\n  paper       the arXiv paper\n  skills      tools i use\n  orbits      list my roles\n  collide a b smash two roles (ufcu, c1, cmse, frib, msu)\n  light x     cherenkov | aurora | solar | nebula\n  hikes       my trail log\n  github      my repositories\n  contact     how to reach me\n  clear       clear the screen`,
+  whoami: () => `Ekaksh "EK" Kataria. Physics B.S. from Michigan State, data scientist, co-author of a paper on Gaussian-process emulation.`,
+  now: () => `Software Engineer, Test Automation at UFCU (via Tech Mahindra).\n<span class="m">800+ API tests in CI; regression cycles 40h → 3h.</span>`,
+  paper: () => `Optimally Emulating Smooth Functions for Bayesian Analyses\n<span class="m">arXiv:2610.29685 · math.ST</span>\n<a href="https://arxiv.org/abs/2610.29685">https://arxiv.org/abs/2610.29685</a>`,
+  skills: () => `<span class="h">languages</span>  Python, SQL, C++, R, MATLAB, Shell\n<span class="h">stats</span>      Bayesian inference, MCMC, Gaussian processes, PCA\n<span class="h">ml / llm</span>   PyTorch, JAX, scikit-learn, vLLM, Pinecone, RAG\n<span class="h">infra</span>      Docker, GCP, Snowflake, GitHub Actions, Azure DevOps`,
+  orbits: () => ROLES.map((r, i) => `${String(i + 1).padStart(2, "0")}  ${r.id.padEnd(5)} ${r.t}`).join("\n"),
+  contact: () => `email     ekakshkataria212@gmail.com\nphone     +1 (517) 944-4314\nlinkedin  <a href="https://www.linkedin.com/in/ekaksh-kataria/">linkedin.com/in/ekaksh-kataria</a>\ngithub    <a href="https://github.com/katariae">github.com/katariae</a>`,
+  ls: () => `hello/  observations/  bench/  orbits/  trails/  collider/  lab/  say-hi/`,
+  hikes: () => HIKES.length ? HIKES.map(k => `▲ ${String(k.elev_ft).padStart(6)} ft  ${k.trail}, ${k.place}`).join("\n") : "no hikes logged yet.",
+  github: () => `<a href="${D.links.github}">github.com/${D.githubUser}</a>  <span class="m">(live repos are in the bench section)</span>`,
+  sudo: () => `<span class="m">permission denied. try asking nicely: contact</span>`,
+  hire: () => `excellent choice. → contact`,
+  date: () => new Date().toString(),
+  clear: () => { out.innerHTML = ""; return null; }
+};
+function run(line){
+  const [c, ...args] = line.trim().split(/\s+/), cmd = (c || "").toLowerCase();
+  print(`<span class="p">ek@lab ~ %</span> ${esc(line)}`);
+  if (!cmd) return;
+  if (cmd === "collide"){ const ids = ROLES.map(r => r.id); if (args.length === 2 && ids.includes(args[0]) && ids.includes(args[1])){ [A, B] = args; syncBeams(); fire(); print(document.getElementById("readout").textContent + `\n<span class="m">see the collider section for the full readout.</span>`); } else print(`usage: collide a b   (choose from: ${ids.join(", ")})`); return; }
+  if (cmd === "light"){ if (ACC[args[0]]){ setAcc(args[0]); print(`light source set to ${args[0]}.`); } else print(`usage: light cherenkov | aurora | solar | nebula`); return; }
+  const f = CMD[cmd]; if (!f){ print(`command not found: ${esc(cmd)}. type <span class="h">help</span>.`); return; }
+  const r = f(); if (r !== null) print(r);
+}
+document.getElementById("termForm").addEventListener("submit", e => { e.preventDefault(); const v = tin.value; if (v.trim()){ hist.push(v); hi = hist.length; } tin.value = ""; run(v); });
+tin.addEventListener("keydown", e => { if (e.key === "ArrowUp" && hi > 0){ tin.value = hist[--hi]; e.preventDefault(); } if (e.key === "ArrowDown"){ hi = Math.min(hist.length, hi + 1); tin.value = hist[hi] || ""; e.preventDefault(); } });
+print(`<span class="m">welcome to the lab. type</span> <span class="h">help</span> <span class="m">to see what's here.</span>`);
+
+/* ---------------- main loop & resize ---------------- */
+function sizeAll(){ initField(); O = fit(ocv); C = fit(ccv); if (HIKES.length){ P = fit(profCv); drawProfile(); drawTopos(); } drawCards(); drawOrbits(); drawCollider(performance.now() + 5000); if (S.reduce) staticField(); }
+function loop(t){
+  if (!S.reduce){
+    if (isVis(hero) && intro.classList.contains("gone")) stepField(t);
+    if (isVis(stage)){ if (!paused){ if (oLast !== null) oT += Math.min(t - oLast, 50); } oLast = t; drawOrbits(); }
+    if (isVis(ccv) && burst && (t - burst.t0) < 2200) drawCollider(t);
+  }
+  requestAnimationFrame(loop);
+}
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(sizeAll, 150); });
+
+/* ---------------- boot ---------------- */
+document.getElementById("motionToggle").setAttribute("aria-checked", S.reduce);
+buildHikes(); applyAcc(); syncBeams(); showRole(0); loadBench();
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { sizeAll(); fire(); upCount(); requestAnimationFrame(loop); });
+if (store.get("seen") === "1"){ intro.classList.add("gone"); document.body.classList.remove("locked"); } else openIntro();
+})();
+</script>
+</body>
+</html>
