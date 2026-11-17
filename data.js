@@ -114,12 +114,6 @@ window.SITE = {
       alltrails: "https://www.alltrails.com/trail/us/utah/elephant-temple-via-riverside-walk",
       photos: ["photos/zion-8.jpg", "photos/zion-2.jpg", "photos/zion-3.jpg", "photos/zion-4.jpg",
                "photos/zion-5.jpg", "photos/zion-6.jpg", "photos/zion-7.jpg", "photos/zion-1.jpg"] },
-    { trail: "Gypsum Ridge Trail Loop", place: "Las Vegas, NV", date: "2026-02", elev_ft: 3223, miles: 4.55,
-      note: "Views over the whole Las Vegas valley, finishing with a sunset.",
-      // from my AllTrails recording (Feb 14, 2026): 4.55 mi, 512 ft gain, 1h35m moving / 1h48m total
-      gain_ft: 512,
-      alltrails: "https://www.alltrails.com/explore/recording/afternoon-hike-at-gypsum-ridge-trail-loop-7af5265",
-      photos: ["photos/gypsum-ridge-1.jpg", "photos/gypsum-ridge-2.jpg", "photos/gypsum-ridge-3.jpg"] },
     { trail: "Heart and Arch Rocks Loop", place: "Joshua Tree National Park, CA", date: "2025-11", elev_ft: 3800, miles: 2.9,
       note: "Scrambling granite boulders from midday through sunset, then stars over the Joshua trees.",
       // from AllTrails: 2.9 mi loop, 229 ft gain, moderate (White Tank area; elev_ft approximate)
@@ -140,12 +134,6 @@ window.SITE = {
       difficulty: "Moderate", gain_ft: 990,
       alltrails: "https://www.alltrails.com/trail/us/california/mosaic-canyon-trail",
       photos: ["photos/mosaic-canyon-1.jpg"] },
-    { trail: "Goldstrike Canyon Trail", place: "Lake Mead National Recreation Area, NV", date: "2026-04", elev_ft: 1772, miles: 5.88,
-      note: "Scrambling down a narrow slot canyon to the Colorado River.",
-      // from my AllTrails recording (Apr 5, 2026): 5.88 mi, 1,437 ft gain, 2h54m moving / 3h32m total
-      gain_ft: 1437,
-      alltrails: "https://www.alltrails.com/trail/us/nevada/goldstrike-canyon-trail",
-      photos: ["photos/goldstrike-1.jpg", "photos/goldstrike-2.jpg", "photos/goldstrike-3.jpg"] },
     { trail: "Navajo Loop Trail", place: "Bryce Canyon National Park, UT", date: "2026-06", elev_ft: 8000, miles: 1.6,
       note: "Storm clouds over the hoodoo amphitheater, then down through the narrow switchbacks of Wall Street.",
       // from AllTrails: 1.6 mi loop, 508 ft gain, moderate (elev_ft approximate: Sunset Point rim)
