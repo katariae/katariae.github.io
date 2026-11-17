@@ -101,11 +101,24 @@ window.SITE = {
      date: "YYYY-MM".  elev_ft: highest point in feet (approximate is fine).  miles: distance you did, or null.
      Optional, from the trail's AllTrails page: difficulty, gain_ft (elevation gain), alltrails (link).  */
   hikes: [
-    { trail: "South Rim Trail", place: "Grand Canyon National Park, AZ", date: "2025-07", elev_ft: 7000, miles: null,
+    { trail: "South Rim Trail", place: "Grand Canyon National Park, AZ", date: "2025-07", elev_ft: 7000, miles: 7.5,
       note: "Rim views all the way out to the horizon.",
       // from AllTrails ("Grand Canyon Rim Trail"): full trail 12.7 mi, 567 ft gain, moderate
       difficulty: "Moderate", gain_ft: 567,
       alltrails: "https://www.alltrails.com/trail/us/arizona/grand-canyon-rim-trail--3",
-      photos: ["photos/grand-canyon-1.jpg", "photos/grand-canyon-2.jpg", "photos/grand-canyon-3.jpg", "photos/grand-canyon-4.jpg"] }
+      photos: ["photos/grand-canyon-1.jpg", "photos/grand-canyon-2.jpg", "photos/grand-canyon-3.jpg", "photos/grand-canyon-4.jpg"] },
+      { trail: "Zion Narrows", place: "Zion National Park, UT", date: "2025-09", elev_ft: 4450, miles: 7,
+      note: "Rim views all the way out to the horizon.",
+      // from AllTrails ("Grand Canyon Rim Trail"): full trail 12.7 mi, 567 ft gain, moderate
+      difficulty: "Moderate", gain_ft: 1617,
+      alltrails: "https://www.alltrails.com/trail/us/utah/elephant-temple-via-riverside-walk",
+      photos: ["photos/zion-8.jpg", "photos/zion-2.jpg", "photos/zion-3.jpg", "photos/zion-4.jpg",
+               "photos/zion-5.jpg", "photos/zion-6.jpg", "photos/zion-7.jpg", "photos/zion-1.jpg"] },
+    { trail: "Gypsum Ridge Trail Loop", place: "Las Vegas, NV", date: "2026-02", elev_ft: 3223, miles: 4.55,
+      note: "Views over the whole Las Vegas valley, finishing with a sunset.",
+      // from my AllTrails recording (Feb 14, 2026): 4.55 mi, 512 ft gain, 1h35m moving / 1h48m total
+      gain_ft: 512,
+      alltrails: "https://www.alltrails.com/explore/recording/afternoon-hike-at-gypsum-ridge-trail-loop-7af5265",
+      photos: ["photos/gypsum-ridge-1.jpg", "photos/gypsum-ridge-2.jpg", "photos/gypsum-ridge-3.jpg"] }
   ]
 };
