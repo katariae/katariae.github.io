@@ -119,6 +119,60 @@ window.SITE = {
       // from my AllTrails recording (Feb 14, 2026): 4.55 mi, 512 ft gain, 1h35m moving / 1h48m total
       gain_ft: 512,
       alltrails: "https://www.alltrails.com/explore/recording/afternoon-hike-at-gypsum-ridge-trail-loop-7af5265",
-      photos: ["photos/gypsum-ridge-1.jpg", "photos/gypsum-ridge-2.jpg", "photos/gypsum-ridge-3.jpg"] }
+      photos: ["photos/gypsum-ridge-1.jpg", "photos/gypsum-ridge-2.jpg", "photos/gypsum-ridge-3.jpg"] },
+    { trail: "Heart and Arch Rocks Loop", place: "Joshua Tree National Park, CA", date: "2025-11", elev_ft: 3800, miles: 2.9,
+      note: "Scrambling granite boulders from midday through sunset, then stars over the Joshua trees.",
+      // from AllTrails: 2.9 mi loop, 229 ft gain, moderate (White Tank area; elev_ft approximate)
+      difficulty: "Moderate", gain_ft: 229,
+      alltrails: "https://www.alltrails.com/trail/us/california/heart-and-arch-rocks-loop",
+      photos: ["photos/joshua-tree-1.jpg", "photos/joshua-tree-2.jpg", "photos/joshua-tree-3.jpg",
+               "photos/joshua-tree-4.jpg", "photos/joshua-tree-5.jpg"] },
+    { trail: "Golden Canyon and Gower Gulch Loop via Zabriskie Point", place: "Death Valley National Park, CA", date: "2026-01", elev_ft: 700, miles: 6.5,
+      note: "Badwater Basin reflections, sunset over the Zabriskie badlands, then a sky full of stars.",
+      // from AllTrails: 6.5 mi loop, 1,069 ft gain, moderate (elev_ft approximate: Zabriskie Point)
+      difficulty: "Moderate", gain_ft: 1069,
+      alltrails: "https://www.alltrails.com/trail/us/california/golden-canyon-and-gower-gulch-loop-via-zabriskie-point",
+      photos: ["photos/golden-canyon-1.jpg", "photos/golden-canyon-2.jpg", "photos/golden-canyon-3.jpg", "photos/golden-canyon-4.jpg",
+               "photos/golden-canyon-5.jpg", "photos/golden-canyon-6.jpg", "photos/golden-canyon-7.jpg"] },
+    { trail: "Mosaic Canyon Trail", place: "Death Valley National Park, CA", date: "2026-01", elev_ft: 1950, miles: 3.6,
+      note: "Polished marble narrows and mosaic breccia walls, scrambling up to the boulder jam.",
+      // from AllTrails: 3.6 mi out & back, 990 ft gain, moderate (elev_ft approximate)
+      difficulty: "Moderate", gain_ft: 990,
+      alltrails: "https://www.alltrails.com/trail/us/california/mosaic-canyon-trail",
+      photos: ["photos/mosaic-canyon-1.jpg"] },
+    { trail: "Goldstrike Canyon Trail", place: "Lake Mead National Recreation Area, NV", date: "2026-04", elev_ft: 1772, miles: 5.88,
+      note: "Scrambling down a narrow slot canyon to the Colorado River.",
+      // from my AllTrails recording (Apr 5, 2026): 5.88 mi, 1,437 ft gain, 2h54m moving / 3h32m total
+      gain_ft: 1437,
+      alltrails: "https://www.alltrails.com/trail/us/nevada/goldstrike-canyon-trail",
+      photos: ["photos/goldstrike-1.jpg", "photos/goldstrike-2.jpg", "photos/goldstrike-3.jpg"] },
+    { trail: "Navajo Loop Trail", place: "Bryce Canyon National Park, UT", date: "2026-06", elev_ft: 8000, miles: 1.6,
+      note: "Storm clouds over the hoodoo amphitheater, then down through the narrow switchbacks of Wall Street.",
+      // from AllTrails: 1.6 mi loop, 508 ft gain, moderate (elev_ft approximate: Sunset Point rim)
+      difficulty: "Moderate", gain_ft: 508,
+      alltrails: "https://www.alltrails.com/trail/us/utah/navajo-loop-trail",
+      photos: ["photos/bryce-1.jpg", "photos/bryce-2.jpg", "photos/bryce-3.jpg", "photos/bryce-4.jpg",
+               "photos/bryce-5.jpg", "photos/bryce-6.jpg"] },
+    { trail: "Alpine Lakes, Bristlecone, and Glacier Loop", place: "Great Basin National Park, NV", date: "2026-09", elev_ft: 10678, miles: 4.86,
+      note: "Alpine lakes under Wheeler Peak, sunset over the basin, the Milky Way overhead, and Lehman Caves.",
+      // from my AllTrails recording (Sep 12, 2026): 4.86 mi, 902 ft gain, 2h17m moving / 3h12m total
+      difficulty: "Moderate", gain_ft: 902,
+      alltrails: "https://www.alltrails.com/trail/us/nevada/alpine-lakes-bristlecone-and-glacier-loop",
+      photos: ["photos/great-basin-1.jpg", "photos/great-basin-2.jpg", "photos/great-basin-3.jpg", "photos/great-basin-4.jpg",
+               "photos/great-basin-5.jpg", "photos/great-basin-6.jpg", "photos/great-basin-7.jpg"] },
+    { trail: "Ranger Lake via Twin Lakes, Silliman Pass, and Ranger Lake Trail", place: "Sequoia National Park, CA", date: "2026-11", elev_ft: 8150, miles: 6.76,
+      note: "Fresh snow and drifting fog through the giant forest.",
+      // from my AllTrails recording (Nov 1, 2026): 6.76 mi, 1,453 ft gain, 4h32m moving / 5h58m total
+      // elev_ft approximate: Lodgepole trailhead (~6,700 ft) + gain
+      gain_ft: 1453,
+      alltrails: "https://www.alltrails.com/trail/us/california/ranger-lake-via-twin-lakes-silliman-pass-and-ranger-lake-trail",
+      photos: ["photos/ranger-lake-1.jpg", "photos/ranger-lake-2.jpg", "photos/ranger-lake-3.jpg", "photos/ranger-lake-4.jpg"] },
+    { trail: "Yosemite Point", place: "Yosemite National Park, CA", date: "2026-11", elev_ft: 6981, miles: 5.69,
+      note: "Half Dome over autumn meadows, Upper Yosemite Fall up close, then the clouds rolled in at the top.",
+      // from my AllTrails recording (Nov 3, 2026): 5.69 mi, 2,979 ft gain, 5h38m moving / 8h03m total
+      gain_ft: 2979,
+      alltrails: "https://www.alltrails.com/trail/us/california/yosemite-point",
+      photos: ["photos/yosemite-point-1.jpg", "photos/yosemite-point-2.jpg", "photos/yosemite-point-3.jpg",
+               "photos/yosemite-point-4.jpg", "photos/yosemite-point-5.jpg"] }
   ]
 };
