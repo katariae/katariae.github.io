@@ -10,10 +10,11 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!-- link previews (LinkedIn, iMessage, Slack, X). Image URL must be absolute; update it if the domain changes. -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://katariae.github.io/">
+<meta property="og:url" content="https://ekakshkataria.com/">
+<link rel="canonical" href="https://ekakshkataria.com/">
 <meta property="og:title" content="Ekaksh Kataria">
 <meta property="og:description" content="Data scientist with a physics brain. Bayesian inference, machine learning, LLM systems.">
-<meta property="og:image" content="https://katariae.github.io/og-image.jpg">
+<meta property="og:image" content="https://ekakshkataria.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Half Dome above Yosemite Valley">
@@ -80,6 +81,10 @@ nav.top a:hover{color:var(--ink);background:var(--panel2)}
 nav.top a.me{font:italic 400 19px/1 var(--serif);color:var(--ink);padding:6px 12px 6px 10px}
 @media(max-width:560px){nav.top a.hide-m{display:none}.hint{display:none}}
 nav.top .sw-acc{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--acc);cursor:pointer;flex:none;margin-left:2px}
+nav.top .snd{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;flex:none;margin-left:2px;display:grid;place-items:center;padding:0}
+nav.top .snd:hover{color:var(--ink)}
+nav.top .snd[aria-pressed="true"]{color:var(--acc);border-color:rgba(var(--accRGB),.5)}
+nav.top .snd[aria-pressed="true"] .x,nav.top .snd[aria-pressed="false"] .w{display:none}
 
 /* ---------- hero ---------- */
 #hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 0 70px;overflow:hidden}
@@ -239,8 +244,6 @@ dialog li::marker{color:var(--acc)}
 .connect h2{font:italic 400 clamp(56px,10vw,130px)/.9 var(--serif);margin:0 0 18px}
 .connect p{color:var(--muted);margin:0 auto 26px;max-width:480px}
 .connect .mail{font:400 clamp(20px,3vw,30px) var(--serif);display:inline-block;margin-bottom:24px}
-.connect .phone{display:block;font:400 clamp(18px,2.4vw,24px) var(--serif);color:var(--muted);margin:-12px 0 26px;text-decoration:none}
-.connect .phone:hover{color:var(--ink)}
 .connect .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 footer{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--dim);font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -267,6 +270,7 @@ footer button{background:none;border:0;color:var(--muted);cursor:pointer;text-de
       <button type="button" class="src" role="radio" data-acc="nebula"><i style="background:#B48CFF"></i>Nebula</button>
     </div>
     <button type="button" class="toggle" id="motionToggle" role="switch" aria-checked="false"><span class="sw"></span>Reduce motion</button>
+    <button type="button" class="toggle" id="soundToggle" role="switch" aria-checked="false"><span class="sw"></span>Sound</button>
     <button type="button" class="btn solid" id="enter"><span>Smash two nuclei and enter</span><span aria-hidden="true">⚛</span></button>
   </div>
 </div>
@@ -282,6 +286,7 @@ footer button{background:none;border:0;color:var(--muted);cursor:pointer;text-de
   <a href="#collide">collider</a>
   <a class="hide-m" href="#lab">lab</a>
   <a href="#connect">say hi</a>
+  <button class="snd" id="sndBtn" type="button" aria-label="Sound" aria-pressed="false"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="w" d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   <button class="sw-acc" id="cycleAcc" type="button" aria-label="Change light source"></button>
 </nav>
 
@@ -464,7 +469,6 @@ footer button{background:none;border:0;color:var(--muted);cursor:pointer;text-de
     <h2>say hi.</h2>
     <p>Hiring for data science, machine learning, or a research role? I'd like to hear about it.</p>
     <a class="mail" href="mailto:ekakshkataria212@gmail.com">ekakshkataria212@gmail.com</a>
-    <a class="phone" href="tel:+15179444314">+1 (517) 944-4314</a>
     <div class="row">
       <a class="btn solid" href="https://www.linkedin.com/in/ekaksh-kataria/">LinkedIn</a>
       <a class="btn" href="https://github.com/katariae">GitHub</a>
@@ -501,6 +505,51 @@ function applyAcc(){
 }
 function setAcc(k){ S.acc = k; store.set("acc", k); applyAcc(); }
 function setReduce(v){ S.reduce = v; store.set("reduce", v ? "1" : "0"); document.getElementById("motionToggle").setAttribute("aria-checked", v); }
+
+/* ---------------- sound: synthesized with Web Audio (no audio files), off by default ---------------- */
+const SND = (() => {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let ctx = null, out = null, nbuf = null, on = store.get("sound") === "1";
+  const ROOT = { cherenkov: 659.3, aurora: 587.3, solar: 523.3, nebula: 493.9 }; // each light source gets its own key
+  const root = () => ROOT[S.acc] || 659.3;
+  function tone(f, t, dur, o = {}){
+    const osc = ctx.createOscillator(), g = ctx.createGain(); osc.type = o.type || "sine";
+    osc.frequency.setValueAtTime(f, t); if (o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t + dur);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(o.gain || .05, t + (o.attack || .006)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    osc.connect(g); g.connect(out); osc.start(t); osc.stop(t + dur + .05);
+  }
+  function noise(t, dur, o = {}){
+    if (!nbuf){ nbuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = nbuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+    const s = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain(); s.buffer = nbuf;
+    fl.type = o.filter || "bandpass"; fl.Q.value = o.q || .8; fl.frequency.setValueAtTime(o.f || 1200, t); if (o.to) fl.frequency.exponentialRampToValueAtTime(o.to, t + dur);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(o.gain || .04, t + dur * (o.rise || .3)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(fl); fl.connect(g); g.connect(out); s.start(t); s.stop(t + Math.min(dur, 1) + .05);
+  }
+  const SOUNDS = {
+    tick(t){ tone(root() * 2, t, .07, { gain: .03 }); },
+    open(t){ const r = root(); tone(r, t, .55, { type: "triangle", gain: .045 }); tone(r * 1.5, t + .07, .65, { type: "triangle", gain: .035 }); },
+    close(t){ const r = root(); tone(r * 1.5, t, .22, { type: "triangle", gain: .03 }); tone(r, t + .05, .3, { type: "triangle", gain: .025 }); },
+    step(t){ noise(t, .18, { f: 2200, to: 4800, q: 1.4, gain: .025 }); tone(root() * 2, t + .02, .08, { gain: .018 }); },
+    collide(t, o = {}){ // two beams approach (rising whoosh), then the impact and a ringing shimmer
+      const d = o.delay || 0, r = root();
+      if (d > .1) noise(t, d, { f: 250, to: 3200, q: 1.2, gain: .035, rise: .9 });
+      const h = t + d;
+      tone(120, h, .55, { to: 38, gain: .22 });
+      noise(h, .7, { filter: "lowpass", f: 3500, to: 180, q: .4, gain: .09, rise: .02 });
+      [2, 3, 4, 5].forEach((m, i) => tone(r * m / 2, h + .03 + i * .045, .9 - i * .12, { gain: .022 - i * .004 }));
+    }
+  };
+  function ensure(){ if (!AC) return null; if (!ctx){ ctx = new AC(); out = ctx.createGain(); out.gain.value = .6; const comp = ctx.createDynamicsCompressor(); out.connect(comp); comp.connect(ctx.destination); } return ctx; }
+  function play(name, o){
+    if (!on || !AC || !SOUNDS[name]) return;
+    if (!ctx && navigator.userActivation && !navigator.userActivation.isActive) return; // browsers only allow audio after a click or key press
+    ensure(); const go = () => SOUNDS[name](ctx.currentTime + .01, o);
+    if (ctx.state === "running") go(); else ctx.resume().then(go, () => {});
+  }
+  function sync(){ document.getElementById("soundToggle").setAttribute("aria-checked", on); const b = document.getElementById("sndBtn"); b.setAttribute("aria-pressed", on); b.setAttribute("aria-label", on ? "Turn sound off" : "Turn sound on"); }
+  function set(v){ on = v; store.set("sound", v ? "1" : "0"); sync(); if (v) play("open"); }
+  return { play, set, sync, get on(){ return on; } };
+})();
 
 /* ---------------- helpers ---------------- */
 function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -556,7 +605,13 @@ function finishIntro(){ cancelAnimationFrame(introAnim); intro.classList.add("go
 function openIntro(){ intro.classList.remove("gone"); document.body.classList.add("locked"); entering = false; if (S.reduce) drawIntro(0, null); else introLoop(); document.getElementById("enter").focus(); }
 document.querySelectorAll(".src").forEach(b => b.addEventListener("click", () => setAcc(b.dataset.acc)));
 document.getElementById("motionToggle").addEventListener("click", () => setReduce(!S.reduce));
-document.getElementById("enter").addEventListener("click", () => { if (S.reduce){ finishIntro(); return; } entering = true; });
+document.getElementById("enter").addEventListener("click", () => { SND.play("collide", { delay: S.reduce ? 0 : .9 }); if (S.reduce){ finishIntro(); return; } entering = true; });
+document.getElementById("soundToggle").addEventListener("click", () => SND.set(!SND.on));
+document.getElementById("sndBtn").addEventListener("click", () => SND.set(!SND.on));
+/* one listener gives every button and link a sound; the buttons listed with null make their own */
+const SND_MAP = [[".obs, .hike", "open"], ["#hkPrev, #hkNext, #carPrev, #carNext, #orbPrev, #orbNext", "step"],
+  [".close, #enter, #fire, #soundToggle, #sndBtn, .presets .chip, #beamA .chip, #beamB .chip", null]];
+document.addEventListener("click", e => { const el = e.target.closest("button, a"); if (!el) return; const hit = SND_MAP.find(([s]) => el.matches(s)); const name = hit ? hit[1] : "tick"; if (name) SND.play(name); });
 document.getElementById("skipIntro").addEventListener("click", finishIntro);
 document.getElementById("replay").addEventListener("click", () => { scrollTo(0, 0); openIntro(); });
 addEventListener("keydown", e => { if (e.key === "Escape" && !intro.classList.contains("gone")) finishIntro(); });
@@ -612,6 +667,7 @@ function openObs(i){ const o = OBS[i];
   dlg.showModal(); eventDisplay(document.getElementById("dlgCv"), 101 + i * 37, { scale: .62 }); }
 document.getElementById("dlgClose").addEventListener("click", () => dlg.close());
 dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener("close", () => SND.play("close"));
 
 /* ---------------- orbits ---------------- */
 const ROLES = D.roles;
@@ -665,6 +721,7 @@ function fire(){
   const mx = Math.max(...list.map(o => o.w));
   document.getElementById("detected").innerHTML = list.map(o => `<span class="${o.sh ? "shared" : ""}" style="font-size:${12 + 8 * o.w / mx}px;opacity:${.55 + .45 * o.w / mx}">${o.s}</span>`).join("");
   burst = { t0: performance.now(), seed: (A.length * 31 + B.length * 7 + e) | 0, n: list.length, sh: shared };
+  SND.play("collide", { delay: S.reduce ? 0 : .6 }); // beams meet .6s into the animation
   if (S.reduce) drawCollider(performance.now() + 2000);
 }
 function drawCollider(now){
@@ -750,7 +807,7 @@ function drawProfile(){
 }
 const profCv = document.getElementById("profCv");
 profCv.addEventListener("click", e => { const r = profCv.getBoundingClientRect(), mx = e.clientX - r.left, pad = 60; let best = 0, bd = 1e9;
-  HIKES.forEach((_, i) => { const px = pad + (HIKES.length === 1 ? .5 : i / (HIKES.length - 1)) * (P.w - pad * 2), d = Math.abs(px - mx); if (d < bd){ bd = d; best = i; } }); hSel = best; drawProfile(); openHike(best); });
+  HIKES.forEach((_, i) => { const px = pad + (HIKES.length === 1 ? .5 : i / (HIKES.length - 1)) * (P.w - pad * 2), d = Math.abs(px - mx); if (d < bd){ bd = d; best = i; } }); hSel = best; drawProfile(); SND.play("open"); openHike(best); });
 const hdlg = document.getElementById("hikeDlg");
 function openHike(i, j = 0){ if (!HIKES.length) return; hSel = (i + HIKES.length) % HIKES.length; const hk = HIKES[hSel], n = Math.max(1, pics(hk).length); pSel = (j + n) % n; const m = document.getElementById("hkMedia"); m.innerHTML = "";
   const el = media(hk, hSel, "big", pSel); m.appendChild(el);
@@ -761,7 +818,8 @@ document.getElementById("hkPrev").addEventListener("click", () => stepPhoto(-1))
 document.getElementById("hkNext").addEventListener("click", () => stepPhoto(1));
 document.getElementById("hkClose").addEventListener("click", () => hdlg.close());
 hdlg.addEventListener("click", e => { if (e.target === hdlg) hdlg.close(); });
-hdlg.addEventListener("keydown", e => { if (e.key === "ArrowLeft") stepPhoto(-1); if (e.key === "ArrowRight") stepPhoto(1); });
+hdlg.addEventListener("keydown", e => { if (e.key === "ArrowLeft"){ SND.play("step"); stepPhoto(-1); } if (e.key === "ArrowRight"){ SND.play("step"); stepPhoto(1); } });
+hdlg.addEventListener("close", () => SND.play("close"));
 if (!HIKES.length) document.getElementById("trails").hidden = true;
 redrawers.push(() => { drawTopos(); drawProfile(); });
 
@@ -775,7 +833,7 @@ const CMD = {
   paper: () => `Optimally Emulating Smooth Functions for Bayesian Analyses\n<span class="m">arXiv:2610.29685 · math.ST</span>\n<a href="https://arxiv.org/abs/2610.29685">https://arxiv.org/abs/2610.29685</a>`,
   skills: () => `<span class="h">languages</span>  Python, SQL, C++, R, MATLAB, Shell\n<span class="h">stats</span>      Bayesian inference, MCMC, Gaussian processes, PCA\n<span class="h">ml / llm</span>   PyTorch, JAX, scikit-learn, vLLM, Pinecone, RAG\n<span class="h">infra</span>      Docker, GCP, Snowflake, GitHub Actions, Azure DevOps`,
   orbits: () => ROLES.map((r, i) => `${String(i + 1).padStart(2, "0")}  ${r.id.padEnd(5)} ${r.t}`).join("\n"),
-  contact: () => `email     ekakshkataria212@gmail.com\nphone     +1 (517) 944-4314\nlinkedin  <a href="https://www.linkedin.com/in/ekaksh-kataria/">linkedin.com/in/ekaksh-kataria</a>\ngithub    <a href="https://github.com/katariae">github.com/katariae</a>`,
+  contact: () => `email     ekakshkataria212@gmail.com\nlinkedin  <a href="https://www.linkedin.com/in/ekaksh-kataria/">linkedin.com/in/ekaksh-kataria</a>\ngithub    <a href="https://github.com/katariae">github.com/katariae</a>`,
   ls: () => `hello/  observations/  bench/  orbits/  trails/  collider/  lab/  say-hi/`,
   hikes: () => HIKES.length ? HIKES.map(k => `▲ ${String(k.elev_ft).padStart(6)} ft  ${k.trail}, ${k.place}`).join("\n") : "no hikes logged yet.",
   github: () => `<a href="${D.links.github}">github.com/${D.githubUser}</a>  <span class="m">(live repos are in the bench section)</span>`,
@@ -793,7 +851,7 @@ function run(line){
   const f = CMD[cmd]; if (!f){ print(`command not found: ${esc(cmd)}. type <span class="h">help</span>.`); return; }
   const r = f(); if (r !== null) print(r);
 }
-document.getElementById("termForm").addEventListener("submit", e => { e.preventDefault(); const v = tin.value; if (v.trim()){ hist.push(v); hi = hist.length; } tin.value = ""; run(v); });
+document.getElementById("termForm").addEventListener("submit", e => { e.preventDefault(); const v = tin.value; if (v.trim()){ hist.push(v); hi = hist.length; } tin.value = ""; SND.play("tick"); run(v); });
 tin.addEventListener("keydown", e => { if (e.key === "ArrowUp" && hi > 0){ tin.value = hist[--hi]; e.preventDefault(); } if (e.key === "ArrowDown"){ hi = Math.min(hist.length, hi + 1); tin.value = hist[hi] || ""; e.preventDefault(); } });
 print(`<span class="m">welcome to the lab. type</span> <span class="h">help</span> <span class="m">to see what's here.</span>`);
 
@@ -811,6 +869,7 @@ let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(siz
 
 /* ---------------- boot ---------------- */
 document.getElementById("motionToggle").setAttribute("aria-checked", S.reduce);
+SND.sync();
 buildHikes(); applyAcc(); syncBeams(); showRole(0); loadBench();
 (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { sizeAll(); fire(); upCount(); requestAnimationFrame(loop); });
 if (store.get("seen") === "1"){ intro.classList.add("gone"); document.body.classList.remove("locked"); } else openIntro();

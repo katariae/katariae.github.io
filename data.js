@@ -9,7 +9,6 @@ window.SITE = {
   name: "Ekaksh Kataria",
   shortName: "EK",
   email: "ekakshkataria212@gmail.com",
-  phone: "+1 (517) 944-4314",
   githubUser: "katariae",          // used for the live "on the bench" section
   githubTopic: "portfolio",        // repos with this topic are shown first
   githubHide: ["melanies_smoothies"], // repos never shown on the site
